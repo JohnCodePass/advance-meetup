@@ -4,7 +4,7 @@ let currentPrice = document.querySelector('#currentPrice')
 let areaOfCoins = document.getElementById("areaOfCoins");
 
 
-
+let idHolder;
 // This shows us the top 100 coins
 let newGeckoApi = () => {
     areaOfCoins.innerHTML = '';
@@ -52,7 +52,8 @@ let newGeckoApi = () => {
 
 
                 newTrNode.addEventListener('click', function () {
-                    userAction(coin.name)
+                    idHolder = coin.id
+                    userAction((idHolder))
                 })
 
                 areaOfCoins.appendChild(newTrNode);
@@ -62,26 +63,40 @@ let newGeckoApi = () => {
 newGeckoApi();
 // setInterval((newGeckoApi), 10000) as this api takes longer to update
 
-
 let refreshData;
-// Use next function to get more details and live refresh
+let modalTitle = document.getElementById("exampleModalLabel");
+let currModalPrice = document.getElementById("currModalPrice");
+let currModalPercent24 = document.getElementById("currModalPercent24");
+// Use next function to get more details and live refresh every to secs
 let userAction = (idGot) => {
+    $('#exampleModal').modal('show')
+
     fetch(`https://api.coingecko.com/api/v3/coins/${idGot.toLowerCase()}`)
         .then(response => response.json())
-        .then(data => {
-
-            $('#exampleModal').modal('show')
-
-
-
-            // console.log(data);
-            refreshData = setInterval(() => console.log(data), 2000);
-
+        .then(coin => {
+            modalTitle.innerText = coin.name;
+            currModalPrice.innerText = "Price $"+coin.market_data.current_price.usd;
+            (coin.market_data.price_change_percentage_24h >= 0 ? currModalPercent24.setAttribute("style", "color:green") : currModalPercent24.setAttribute("style", "color:red"))
+            currModalPercent24.innerText = coin.market_data.price_change_percentage_24h.toFixed(2) + "%";
         });
-    console.log(idGot)
+
+    refreshData = setInterval(() => fetch(`https://api.coingecko.com/api/v3/coins/${idGot.toLowerCase()}`)
+        .then(response => response.json())
+        .then(coin => {
+            modalTitle.innerText = coin.name;
+            currModalPrice.innerText = "Price $"+coin.market_data.current_price.usd;
+            (coin.market_data.price_change_percentage_24h >= 0 ? currModalPercent24.setAttribute("style", "color:green") : currModalPercent24.setAttribute("style", "color:red"))
+            currModalPercent24.innerText = coin.market_data.price_change_percentage_24h.toFixed(2) + "%";
+
+
+
+            console.log(coin);
+        }), 5000)
 }
-// userAction()
-// setInterval ((userAction), 2000 ) reload the function every 2 secs
+
+// $('#exampleModal').on('shown.bs.modal', function (event) {
+//     console.log("hello")
+// })
 
 $('#exampleModal').on('hidden.bs.modal', function (event) {
     clearInterval(refreshData)
