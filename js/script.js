@@ -7,18 +7,19 @@ let areaOfCoins = document.getElementById("areaOfCoins");
 
 // This shows us the top 100 coins
 let newGeckoApi = () => {
-    let num = 0;
+    let num = 1;
     fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
     .then(res => res.json())
     .then(data => {
         // console.log(data);
         data.map(coin => {
-            console.log(coin)
-            console.log(num++)
+            // console.log(coin)
+            // console.log(num++)
             let newTrNode = document.createElement("TR")
+            newTrNode.setAttribute("onclick", "userAction()")
 
             let numtrNode = document.createElement("TD");
-            let coinPos = document.createTextNode(num);
+            let coinPos = document.createTextNode(num++);
             numtrNode.appendChild(coinPos);
             newTrNode.appendChild(numtrNode);
 
@@ -46,7 +47,8 @@ let newGeckoApi = () => {
             newTrNode.appendChild(pricetrNode);
 
             let precentTRChange = document.createElement("TD");
-            let preChange = document.createTextNode(coin.price_change_percentage_24h + "%")
+            (coin.price_change_percentage_24h >= 0 ? precentTRChange.setAttribute("style", "color:green") : precentTRChange.setAttribute("style", "color:red"))
+            let preChange = document.createTextNode((coin.price_change_percentage_24h).toFixed(2) + "%")
             precentTRChange.appendChild(preChange);
             newTrNode.appendChild(precentTRChange);
 
@@ -57,15 +59,15 @@ let newGeckoApi = () => {
 newGeckoApi();
 
 // Use next function to get more details and live refresh
-
-let userAction = async () => {
-    fetch("https://api.coin360.com/coin/latest?coin=BTC&convert=USD")
-        .then(response => response.json())
-        .then(data => {
-            firstVal.innerText = data.BTC.change_1h;
-            currentPrice.innerText = data.BTC.quotes.USD.price;
-            // console.log(data);
-        });
+let userAction = (idGot) => {
+    // fetch("https://api.coin360.com/coin/latest?coin=BTC&convert=USD")
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         firstVal.innerText = data.BTC.change_1h;
+    //         currentPrice.innerText = data.BTC.quotes.USD.price;
+    //         // console.log(data);
+    //     });
+    console.log(idGot)
 }
-userAction()
+// userAction()
 // setInterval ((userAction), 2000 ) reload the function every 2 secs
