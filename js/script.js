@@ -1,11 +1,7 @@
 let firstVal = document.querySelector('#firstVal');
 let currentPrice = document.querySelector('#currentPrice')
 
-let coinArea = document.getElementById("nameOfCoin")
-let posOfCoin = document.getElementById("posOfCoin")
-let smolcoinName = document.getElementById("smolcoinName")
-let currentCoinPrice = document.getElementById("currentCoinPrice");
-let picOfCoin = document.getElementById("picOfCoin")
+let areaOfCoins = document.getElementById("areaOfCoins");
 
 
 
@@ -19,33 +15,42 @@ let newGeckoApi = () => {
         data.map(coin => {
             console.log(coin)
             console.log(num++)
-            let trNode = document.createElement("TR")
-            let coinId = document.createTextNode(coin.name)
-            trNode.appendChild(coinId);
-            coinArea.appendChild(trNode)
+            let newTrNode = document.createElement("TR")
 
-            let pictrNode = document.createElement("TR");
-            let picCoin = document.createElement("IMG");
-            picCoin.setAttribute("src", coin.image)
-            picCoin.setAttribute("width", "24")
-            pictrNode.appendChild(picCoin);
-            picOfCoin.appendChild(pictrNode)
-
-
-            let numtrNode = document.createElement("TR");
+            let numtrNode = document.createElement("TD");
             let coinPos = document.createTextNode(num);
             numtrNode.appendChild(coinPos);
-            posOfCoin.appendChild(numtrNode);
+            newTrNode.appendChild(numtrNode);
 
-            let smoltrNode = document.createElement("TR");
+            let pictrNode = document.createElement("TD");
+            let picCoin = document.createElement("IMG");
+            picCoin.setAttribute("src", coin.image)
+            picCoin.setAttribute("width", "40")
+            pictrNode.appendChild(picCoin);
+            newTrNode.appendChild(pictrNode)
+
+            let trNode = document.createElement("TD")
+            let coinId = document.createTextNode(coin.name)
+            trNode.appendChild(coinId);
+            newTrNode.appendChild(trNode)
+
+
+            let smoltrNode = document.createElement("TD");
             let coinsmolName = document.createTextNode((coin.symbol).toUpperCase())
             smoltrNode.appendChild(coinsmolName);
-            smolcoinName.appendChild(smoltrNode)
+            newTrNode.appendChild(smoltrNode)
 
-            let pricetrNode = document.createElement("TR");
+            let pricetrNode = document.createElement("TD");
             let currentGeckoPrice = document.createTextNode("$"+coin.current_price);
             pricetrNode.appendChild(currentGeckoPrice);
-            currentCoinPrice.appendChild(pricetrNode);
+            newTrNode.appendChild(pricetrNode);
+
+            let precentTRChange = document.createElement("TD");
+            let preChange = document.createTextNode(coin.price_change_percentage_24h + "%")
+            precentTRChange.appendChild(preChange);
+            newTrNode.appendChild(precentTRChange);
+
+            areaOfCoins.appendChild(newTrNode);
         })
     })
 }
