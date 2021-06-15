@@ -1,6 +1,5 @@
 let firstVal = document.querySelector('#firstVal');
 let currentPrice = document.querySelector('#currentPrice')
-
 let areaOfCoins = document.getElementById("areaOfCoins");
 
 
@@ -116,8 +115,8 @@ let userAction = (idGot) => {
             (coin.market_data.price_change_percentage_14d_in_currency.usd >= 0 ? fourteenDayMoneyChange.setAttribute("style", "color:green") : fourteenDayMoneyChange.setAttribute("style", "color:red"))
             fourteenDayMoneyChange.innerText = coin.market_data.price_change_percentage_14d_in_currency.usd.toFixed(2) + "%";
 
-
-
+            (coin.market_data.price_change_percentage_30d_in_currency.usd >= 0 ? thirtyDayMoneyChange.setAttribute("style", "color:green") : thirtyDayMoneyChange.setAttribute("style", "color:red"))
+            thirtyDayMoneyChange.innerText = coin.market_data.price_change_percentage_30d_in_currency.usd.toFixed(2) + "%";
 
             console.log(coin);
         }), 5000)
