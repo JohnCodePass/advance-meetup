@@ -70,7 +70,7 @@ let currModalPercent24 = document.getElementById("currModalPercent24");
 let currImageThumb = document.getElementById("currImageThumb");
 let currMarketCap = document.getElementById("currMarketCap");
 
-let oneDayMoneyChange = document.getElementById("1DayMoneyChange");
+let sevenDayMoneyChange = document.getElementById("7DayMoneyChange");
 
 let fourteenDayMoneyChange = document.getElementById("14DayMoneyChange");
 
@@ -89,11 +89,15 @@ let userAction = (idGot) => {
             currImageThumb.setAttribute("src", coin.image.small);
             currMarketCap.innerText = "Current Market Cap " + coin.market_data.market_cap.usd;
 
-            (coin.market_data.price_change_24h_in_currency.usd >= 0 ? oneDayMoneyChange.setAttribute("style", "color:green") : oneDayMoneyChange.setAttribute("style", "color:red"))
-            oneDayMoneyChange.innerText = "$"+coin.market_data.price_change_24h_in_currency.usd;
+            (coin.market_data.price_change_percentage_7d_in_currency.usd >= 0 ? sevenDayMoneyChange.setAttribute("style", "color:green") : sevenDayMoneyChange.setAttribute("style", "color:red"))
+            sevenDayMoneyChange.innerText = coin.market_data.price_change_percentage_7d_in_currency.usd.toFixed(2) + "%";
 
 
+            (coin.market_data.price_change_percentage_14d_in_currency.usd >= 0 ? fourteenDayMoneyChange.setAttribute("style", "color:green") : fourteenDayMoneyChange.setAttribute("style", "color:red"))
+            fourteenDayMoneyChange.innerText = coin.market_data.price_change_percentage_14d_in_currency.usd.toFixed(2) + "%";
 
+            (coin.market_data.price_change_percentage_30d_in_currency.usd >= 0 ? thirtyDayMoneyChange.setAttribute("style", "color:green") : thirtyDayMoneyChange.setAttribute("style", "color:red"))
+            thirtyDayMoneyChange.innerText = coin.market_data.price_change_percentage_30d_in_currency.usd.toFixed(2) + "%";
 
         });
 
@@ -104,7 +108,14 @@ let userAction = (idGot) => {
             currModalPrice.innerText = "Price $"+coin.market_data.current_price.usd;
             (coin.market_data.price_change_percentage_24h >= 0 ? currModalPercent24.setAttribute("style", "color:green") : currModalPercent24.setAttribute("style", "color:red"))
             currModalPercent24.innerText = coin.market_data.price_change_percentage_24h.toFixed(2) + "% 24H";
-            currMarketCap.innerText = "Market Cap " + coin.market_data.market_cap.usd;
+            currMarketCap.innerText = "Current Market Cap " + coin.market_data.market_cap.usd;
+
+            (coin.market_data.price_change_percentage_7d_in_currency.usd >= 0 ? sevenDayMoneyChange.setAttribute("style", "color:green") : sevenDayMoneyChange.setAttribute("style", "color:red"))
+            sevenDayMoneyChange.innerText = coin.market_data.price_change_percentage_7d_in_currency.usd.toFixed(2) + "%";
+
+            (coin.market_data.price_change_percentage_14d_in_currency.usd >= 0 ? fourteenDayMoneyChange.setAttribute("style", "color:green") : fourteenDayMoneyChange.setAttribute("style", "color:red"))
+            fourteenDayMoneyChange.innerText = coin.market_data.price_change_percentage_14d_in_currency.usd.toFixed(2) + "%";
+
 
 
 
