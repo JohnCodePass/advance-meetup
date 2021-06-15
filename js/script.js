@@ -67,6 +67,14 @@ let refreshData;
 let modalTitle = document.getElementById("exampleModalLabel");
 let currModalPrice = document.getElementById("currModalPrice");
 let currModalPercent24 = document.getElementById("currModalPercent24");
+let currImageThumb = document.getElementById("currImageThumb");
+let currMarketCap = document.getElementById("currMarketCap");
+
+let oneDayMoneyChange = document.getElementById("1DayMoneyChange");
+
+let fourteenDayMoneyChange = document.getElementById("14DayMoneyChange");
+
+let thirtyDayMoneyChange = document.getElementById("30DayMoneyChange");
 // Use next function to get more details and live refresh every to secs
 let userAction = (idGot) => {
     $('#exampleModal').modal('show')
@@ -77,7 +85,16 @@ let userAction = (idGot) => {
             modalTitle.innerText = coin.name;
             currModalPrice.innerText = "Price $"+coin.market_data.current_price.usd;
             (coin.market_data.price_change_percentage_24h >= 0 ? currModalPercent24.setAttribute("style", "color:green") : currModalPercent24.setAttribute("style", "color:red"))
-            currModalPercent24.innerText = coin.market_data.price_change_percentage_24h.toFixed(2) + "%";
+            currModalPercent24.innerText = coin.market_data.price_change_percentage_24h.toFixed(2) + "% 24H";
+            currImageThumb.setAttribute("src", coin.image.small);
+            currMarketCap.innerText = "Current Market Cap " + coin.market_data.market_cap.usd;
+
+            (coin.market_data.price_change_24h_in_currency.usd >= 0 ? oneDayMoneyChange.setAttribute("style", "color:green") : oneDayMoneyChange.setAttribute("style", "color:red"))
+            oneDayMoneyChange.innerText = "$"+coin.market_data.price_change_24h_in_currency.usd;
+
+
+
+
         });
 
     refreshData = setInterval(() => fetch(`https://api.coingecko.com/api/v3/coins/${idGot.toLowerCase()}`)
@@ -86,7 +103,8 @@ let userAction = (idGot) => {
             modalTitle.innerText = coin.name;
             currModalPrice.innerText = "Price $"+coin.market_data.current_price.usd;
             (coin.market_data.price_change_percentage_24h >= 0 ? currModalPercent24.setAttribute("style", "color:green") : currModalPercent24.setAttribute("style", "color:red"))
-            currModalPercent24.innerText = coin.market_data.price_change_percentage_24h.toFixed(2) + "%";
+            currModalPercent24.innerText = coin.market_data.price_change_percentage_24h.toFixed(2) + "% 24H";
+            currMarketCap.innerText = "Market Cap " + coin.market_data.market_cap.usd;
 
 
 
