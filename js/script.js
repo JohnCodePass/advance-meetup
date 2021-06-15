@@ -1,11 +1,18 @@
-let firstVal = document.querySelector('#firstVal');
-let currentPrice = document.querySelector('#currentPrice')
-
 let areaOfCoins = document.getElementById("areaOfCoins");
-
+let modalTitle = document.getElementById("exampleModalLabel");
+let currModalPrice = document.getElementById("currModalPrice");
+let currModalPercent24 = document.getElementById("currModalPercent24");
+let currImageThumb = document.getElementById("currImageThumb");
+let currMarketCap = document.getElementById("currMarketCap");
+let sevenDayMoneyChange = document.getElementById("7DayMoneyChange");
+let fourteenDayMoneyChange = document.getElementById("14DayMoneyChange");
+let thirtyDayMoneyChange = document.getElementById("30DayMoneyChange");
 
 let idHolder;
-// This shows us the top 100 coins
+let refreshData;
+
+
+// This shows us the top 100 coins, but amount can be changed
 let newGeckoApi = () => {
     areaOfCoins.innerHTML = '';
     let num = 1;
@@ -32,7 +39,6 @@ let newGeckoApi = () => {
                 trNode.appendChild(coinId);
                 newTrNode.appendChild(trNode)
 
-
                 let smoltrNode = document.createElement("TD");
                 let coinsmolName = document.createTextNode((coin.symbol).toUpperCase())
                 smoltrNode.appendChild(coinsmolName);
@@ -49,8 +55,6 @@ let newGeckoApi = () => {
                 precentTRChange.appendChild(preChange);
                 newTrNode.appendChild(precentTRChange);
 
-
-
                 newTrNode.addEventListener('click', function () {
                     idHolder = coin.id
                     userAction((idHolder))
@@ -61,21 +65,9 @@ let newGeckoApi = () => {
         })
 }
 newGeckoApi();
-// setInterval((newGeckoApi), 10000) as this api takes longer to update
+// setInterval((newGeckoApi), 10000) 
 
-let refreshData;
-let modalTitle = document.getElementById("exampleModalLabel");
-let currModalPrice = document.getElementById("currModalPrice");
-let currModalPercent24 = document.getElementById("currModalPercent24");
-let currImageThumb = document.getElementById("currImageThumb");
-let currMarketCap = document.getElementById("currMarketCap");
-
-let sevenDayMoneyChange = document.getElementById("7DayMoneyChange");
-
-let fourteenDayMoneyChange = document.getElementById("14DayMoneyChange");
-
-let thirtyDayMoneyChange = document.getElementById("30DayMoneyChange");
-// Use next function to get more details and live refresh every to secs
+// Use next function is to get more details and live refresh every 5 secs
 let userAction = (idGot) => {
     $('#exampleModal').modal('show')
 
@@ -116,17 +108,12 @@ let userAction = (idGot) => {
             (coin.market_data.price_change_percentage_14d_in_currency.usd >= 0 ? fourteenDayMoneyChange.setAttribute("style", "color:green") : fourteenDayMoneyChange.setAttribute("style", "color:red"))
             fourteenDayMoneyChange.innerText = coin.market_data.price_change_percentage_14d_in_currency.usd.toFixed(2) + "%";
 
+            (coin.market_data.price_change_percentage_30d_in_currency.usd >= 0 ? thirtyDayMoneyChange.setAttribute("style", "color:green") : thirtyDayMoneyChange.setAttribute("style", "color:red"))
+            thirtyDayMoneyChange.innerText = coin.market_data.price_change_percentage_30d_in_currency.usd.toFixed(2) + "%";
 
-
-
-            console.log(coin);
         }), 5000)
 }
 
-// $('#exampleModal').on('shown.bs.modal', function (event) {
-//     console.log("hello")
-// })
-
-$('#exampleModal').on('hidden.bs.modal', function (event) {
+$('#exampleModal').on('hidden.bs.modal', function () {
     clearInterval(refreshData)
 })
