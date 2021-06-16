@@ -8,13 +8,15 @@ let sevenDayMoneyChange = document.getElementById("7DayMoneyChange");
 let fourteenDayMoneyChange = document.getElementById("14DayMoneyChange");
 let thirtyDayMoneyChange = document.getElementById("30DayMoneyChange");
 
+//     "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+
 let idHolder;
 let refreshData;
 
 
 // This shows us the top 100 coins, but amount can be changed
 let newGeckoApi = () => {
-    areaOfCoins.innerHTML = '';
+    // areaOfCoins.innerHTML = '';  is needed if they want to use a setInterval
     let num = 1;
     fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
         .then(res => res.json())
@@ -22,38 +24,38 @@ let newGeckoApi = () => {
             data.map(coin => {
                 let newTrNode = document.createElement("TR")
 
-                let numtrNode = document.createElement("TD");
+                let numTDNode = document.createElement("TD");
                 let coinPos = document.createTextNode(num++);
-                numtrNode.appendChild(coinPos);
-                newTrNode.appendChild(numtrNode);
+                numTDNode.appendChild(coinPos);
+                newTrNode.appendChild(numTDNode);
 
-                let pictrNode = document.createElement("TD");
+                let picTDNode = document.createElement("TD");
                 let picCoin = document.createElement("IMG");
                 picCoin.setAttribute("src", coin.image)
                 picCoin.setAttribute("width", "40")
-                pictrNode.appendChild(picCoin);
-                newTrNode.appendChild(pictrNode)
+                picTDNode.appendChild(picCoin);
+                newTrNode.appendChild(picTDNode)
 
-                let trNode = document.createElement("TD")
+                let nameTDNode = document.createElement("TD")
                 let coinId = document.createTextNode(coin.name)
-                trNode.appendChild(coinId);
-                newTrNode.appendChild(trNode)
+                nameTDNode.appendChild(coinId);
+                newTrNode.appendChild(nameTDNode)
 
-                let smoltrNode = document.createElement("TD");
+                let smolTDNode = document.createElement("TD");
                 let coinsmolName = document.createTextNode((coin.symbol).toUpperCase())
-                smoltrNode.appendChild(coinsmolName);
-                newTrNode.appendChild(smoltrNode)
+                smolTDNode.appendChild(coinsmolName);
+                newTrNode.appendChild(smolTDNode)
 
-                let pricetrNode = document.createElement("TD");
+                let priceTDNode = document.createElement("TD");
                 let currentGeckoPrice = document.createTextNode("$" + coin.current_price);
-                pricetrNode.appendChild(currentGeckoPrice);
-                newTrNode.appendChild(pricetrNode);
+                priceTDNode.appendChild(currentGeckoPrice);
+                newTrNode.appendChild(priceTDNode);
 
-                let precentTRChange = document.createElement("TD");
-                (coin.price_change_percentage_24h >= 0 ? precentTRChange.setAttribute("style", "color:green") : precentTRChange.setAttribute("style", "color:red"))
+                let precentTDChange = document.createElement("TD");
+                (coin.price_change_percentage_24h >= 0 ? precentTDChange.setAttribute("style", "color:green") : precentTDChange.setAttribute("style", "color:red"))
                 let preChange = document.createTextNode((coin.price_change_percentage_24h).toFixed(2) + "%")
-                precentTRChange.appendChild(preChange);
-                newTrNode.appendChild(precentTRChange);
+                precentTDChange.appendChild(preChange);
+                newTrNode.appendChild(precentTDChange);
 
                 newTrNode.addEventListener('click', function () {
                     idHolder = coin.id
@@ -65,7 +67,7 @@ let newGeckoApi = () => {
         })
 }
 newGeckoApi();
-// setInterval((newGeckoApi), 10000) 
+// setInterval((newGeckoApi), 15000) 
 
 // Use next function is to get more details and live refresh every 5 secs
 let userAction = (idGot) => {
